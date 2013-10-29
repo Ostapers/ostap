@@ -9,7 +9,7 @@ all:
 	ocamlbuild -use-ocamlfind lib/ostap.cmo lib/ostap.cmx $(VERBOSE)
 	ocamlbuild -use-ocamlfind -Is lib pa_ostap.cmo $(VERBOSE)
 	ocamlbuild -use-ocamlfind util/util.cmo util/util.cmx
-	ocamlbuild -use-ocamlfind -Is lib -Is util ostap.cmo ostap.cmx
+	ocamlbuild -use-ocamlfind ostap.cmo ostap.cmx
 
 test: 
 	ocamlbuild -use-ocamlfind $(TEST_TARGETS) $(VERBOSE)
