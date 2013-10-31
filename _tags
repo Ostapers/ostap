@@ -4,7 +4,7 @@ true: verbose
 
 <lib/*>: package(typeutil)
 <lib/*.ml>: for-pack(Ostap)
-<lib/regexp.ml>: use_pa_log, package(checked.syntax), package(logger.syntax)
+<lib/regexp.ml>: use_pa_log, package(logger.syntax)
 
 <util/*.ml>: use_pa_ostap, package(camlp5), for-pack(Ostap)
 <util/*.mli>: use_ostap_lib1, for-pack(Ostap)

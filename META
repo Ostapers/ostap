@@ -1,5 +1,5 @@
 version = "0.3"
-description = "Parser-combintor library"
+description = "Parser-combinator library"
 requires = "str typeutil"
 archive(byte) = "ostap.cmo"
 archive(byte, plugin) = "ostap.cmo"
@@ -13,12 +13,4 @@ package "syntax" (
  archive(syntax, preprocessor) = "pa_ostap.cmo"
  archive(syntax, toploop) = "pa_ostap.cmo"
 )
-
-#package "util" (
- # version = "0.3"
-#  description = "Some parser-functions for Ostap"
-#  requires = "ostap"
-#  archive(byte) = "util.cma"
-#  archive(native) = "util.cmxa"
-#)
 
