@@ -34,14 +34,24 @@ module Coord :
 
     (** String conversion. *)
     val toString : t -> string
+    
+    (** [next isNewLine loc] gets next coord depending on the current symbol *)
+    val next : bool -> t -> t
+    
+(** [shift loc s b e] takes text coordinates [loc], string [s] and two indexes [b] and [e], 
+    scans [s] from [b] to [e] inclusively and shifts [loc] to take newlines into account.
+*)
+    val shift : t -> string -> int -> int -> t
 
     (** Comparison function. *)
     val compare : t -> t -> int
 
   end
 
+module MC : Map.S with type key = Coord.t
+
 (** Various ways to denote the location in the source text. *)
-module Locator :
+module rec Locator :
   sig
 
     (** Locator type. *)
@@ -54,11 +64,36 @@ module Locator :
     (** Makes simple interval of two points or set of two non-point locators. *)
     val makeInterval : t -> t -> t
 
+    val least  : t -> Coord.t
+    val most   : t -> Coord.t
+    val updateToString : FileLoc.r -> string -> unit
+
     (** String conversion. *)
     val toString : t -> string
 
     (** Comparison function. *)
     val compare : t -> t -> int
+
+  end
+and FileLoc :
+  sig
+
+    type t = string * Locator.t
+    type r = (int * (string * Coord.t)) list MC.t
+
+    val no           : t
+    val filename     : string ref
+    val debug        : bool ref
+    val interval     : <loc: Locator.t; ..> -> <loc: Locator.t; ..> -> t
+    val toText       : t -> string
+    val unite        : t -> t -> t
+    val toLineDir    : t -> string -> string
+    val getSuccReloc : string -> r -> Coord.t -> r * string option * Coord.t
+    val stripLines   : string -> r * string
+    val addFirst     : r -> r
+    val printRelocs  : r -> unit
+    (** works only before calling Locator.updateToString *)
+    val printReloc   : string -> r -> Locator.t -> unit
 
   end
 

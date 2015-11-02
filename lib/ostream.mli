@@ -70,6 +70,9 @@ val fromList : 'a list -> 'a t
 (** [fromArray a] converts array [a] into stream. *)
 val fromArray : 'a array -> 'a t
 
+(** [nil] is the empty stream. *)
+val nil : 'a t
+
 (** [cons x s] constructs stream of the head element [x] and residual stream [s]. *)
 val cons : 'a -> 'a t -> 'a t
 
@@ -88,6 +91,9 @@ val hd : 'a t -> 'a
 
 (** [tl s] gets the rest of the stream past the current element; raises [End_of_file] on empty stream. *)
 val tl : 'a t -> 'a t
+
+(** [last s] gets the last element of the stream; raises [End_of_file] on empty stream. *)
+val last : 'a t -> 'a
 
 (** [concat x y] concatenates streams [x] and [y]. *)
 val concat : 'a t -> 'a t -> 'a t

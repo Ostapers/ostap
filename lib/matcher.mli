@@ -116,11 +116,6 @@ module Token :
 
   end
 
-(** [shiftPos loc s b e] takes text coordinates [loc], string [s] and two indexes [b] and [e], 
-    scans [s] from [b] to [e] inclusively and shifts [loc] to take newlines into account.
-*)
-val shiftPos : Msg.Coord.t -> string -> int -> int -> Msg.Coord.t
-
 (** [except s] makes regular expression to match any string which does not contain [s]
     as a contiguous substring.
 *)

@@ -115,7 +115,7 @@ val id : ('a, 'b, 'c) parse -> ('a, 'b, 'c) parse
  *)
  val expr :
      (('a, 'b, < add : 'c -> 'c; .. > as 'c) parse -> ('a, 'b, 'c) parse) ->
-     ([< `Lefta | `Nona | `Righta > `Nona ] * (('a, 'd, 'c) parse * ('b -> 'b -> 'b)) list) array ->
+     ([ `Lefta | `Nona | `Righta ] * (('a, 'd, 'c) parse * ('b -> 'b -> 'b)) list) array ->
      ('a, 'b, 'c) parse ->
      ('a, 'b, 'c) parse
 

@@ -1,6 +1,7 @@
 lib/ASCII
 lib/BNF3
 lib/Combinators
+lib/Deterministic
 lib/Matcher
 lib/Msg
 lib/Ostream

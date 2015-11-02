@@ -59,16 +59,13 @@ ostap (
 )
 
 let left  f c x y = f (c x) y
-let right f c x y = f x y
+let right f c x y = c (f x y)
 
 ostap (
   id[x]: x
 )
 
-let rec here1 () = if false then here1 () else ()
-
 let expr f ops opnd =
-  here1 ();
   let ops =
     Array.map 
       (fun (assoc, list) ->

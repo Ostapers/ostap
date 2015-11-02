@@ -28,21 +28,10 @@ module Token =
 
     let toString (t, c) = sprintf "%s at %s" t (Msg.Coord.toString c)
 
-    let loc (t, c) = Msg.Locator.Interval (c, ((fst c), (snd c)+(length t)-1))
+    let loc (t, c) = Msg.Locator.Interval (c, Msg.Coord.shift c t 0 (length t)) (* ((fst c), (snd c)+(length t)-1) *)
     let repr       = fst
 
   end
-
-let shiftPos (line, col) s b n =
-  let rec inner i (line, col) =
-    if i = n 
-    then (line, col)
-    else
-      match s.[i] with
-      | '\n' -> inner (i+1) (line+1, 1)
-      | _    -> inner (i+1) (line, col+1)
-  in
-  inner b (line, col)
 
 let except str =
   let n = String.length str - 1 in
@@ -151,7 +140,7 @@ module Skip =
 	  | x -> x
 	in
 	match iterate s p with
-	| `Skipped p' -> `Skipped (p', shiftPos coord s p p')
+	| `Skipped p' -> `Skipped (p', Msg.Coord.shift coord s p p')
 	| `Failed msg -> `Failed (Msg.make msg [||] (Msg.Locator.Point coord))
       )	
 
@@ -216,7 +205,7 @@ class t s =
           let m = matched_string s in
           let l = length m in
           let p = p + l in
-          let c = shiftPos coord m 0 l in
+          let c = Msg.Coord.shift coord m 0 l in
           self#parsed m {< p = p;  coord = c; context = ((self#skip p c) :> aux) >} coord
         else self#failed (sprintf "\"%s\" expected" name) coord
       )
@@ -227,7 +216,7 @@ class t s =
 	   let l = String.length str in
 	   let m = String.sub s p l in
 	   let p = p + l in
-	   let c = shiftPos coord m 0 (length m) in
+	   let c = Msg.Coord.shift coord m 0 (length m) in
 	   if str = m 
 	   then self#parsed m {< p = p; coord = c; context = ((self#skip p c) :> aux) >} coord
 	   else self#failed (sprintf "\"%s\" expected" str) coord

@@ -17,28 +17,9 @@
 
 module Holder =
   struct
-(*
-    module M = Map.Make (Msg.Locator)
-	*)
-    module M = struct
-	type key = Msg.Locator.t
- 	type 'a t = (key * 'a) list
-	let add k v m = 
-		(* (k,v)::m *)
-		let rec add_helper acc xs = 
-			match xs with
-			| [] -> [(k,v)]
-			| (k',v')::xs when Msg.Locator.compare k' k < 0 -> add_helper ((k',v')::acc) xs
-			| (k',__)::xs when Msg.Locator.compare k' k = 0 -> List.rev_append acc ((k,v)::xs)
-			| _______::__ -> List.rev_append acc ((k,v)::xs)
-		in 
-		add_helper [] m
 
-	let fold f m init = 
-		List.fold_left (fun acc (k,v) -> f k v acc) init m 
-	let empty = []
-	let find key xs = List.assoc key xs
-    end
+    module M = Map.Make (Msg.Locator)
+	
     type t = [`Msg of Msg.t | `Comment of string * t] list M.t
     
     let empty = (M.empty : t)

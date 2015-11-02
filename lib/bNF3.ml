@@ -246,3 +246,4 @@ module Def =
       | args -> TeXHelper.prule name args (Expr.toTeX expr)
 
   end
+

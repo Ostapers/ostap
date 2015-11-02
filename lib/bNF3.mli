@@ -2,15 +2,15 @@
  * BNF3: BNF tree representation.
  * Copyright (C) 2008
  * Dmitri Boulytchev, St.Petersburg State University
- *
+ * 
  * This software is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Library General Public
  * License version 2, as published by the Free Software Foundation.
- *
+ * 
  * This software is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
- *
+ * 
  * See the GNU Library General Public License version 2 for more details
  * (enclosed in the file COPYING).
  *)
@@ -23,7 +23,7 @@ module Expr :
 
     (** Main type. *)
     type t =
-    	String  of string                        (** String terminal                           *)
+	String  of string                        (** String terminal                           *)
       | Term    of string                        (** Non-string terminal                       *)
       | Nonterm of string                        (** Nonterminal                               *)
       | Apply   of t * t list                    (** Rule application                          *)
@@ -51,7 +51,7 @@ module Expr :
 
     (** Iteration. *)
     val star : t -> t
-
+         
     (** Non-empty iteration. *)
     val plus : t -> t
 
@@ -60,7 +60,7 @@ module Expr :
 
     (** Alternation. *)
     val alt : t list -> t
-
+     
     (** Sequencing. *)
     val seq : t list -> t
 
@@ -75,7 +75,7 @@ module Expr :
 
     (** Tree printer. *)
     val toTree : t -> string
-
+    
   end
 
 (** Rule definition representation. *)
@@ -83,13 +83,13 @@ module Def :
   sig
 
     (** Main type *)
-    type t
+    type t 
 
     (** Constructor of simple definition. Takes name and body. *)
     val make : string -> Expr.t -> t
 
-    (** Constructor of parameterized definition. Takes name,
-        argument name list and body.
+    (** Constructor of parameterized definition. Takes name, 
+        argument name list and body. 
     *)
     val makeP : string -> string list -> Expr.t -> t
 

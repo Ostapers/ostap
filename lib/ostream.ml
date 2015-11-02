@@ -27,6 +27,7 @@ let rec fromList      l      = fromIterator  l (function [] -> raise End_of_file
 let rec fromArray     a      = let n = Array.length a in fromGenerator 0 (fun i -> i+1) (fun i -> if i < n then a.(i) else raise End_of_file)
 let     fromFile             = fromChannel input_char
 let     fromString    s      = let n = String.length s in fromGenerator 0 (fun i -> i+1) (fun i -> if i < n then s.[i] else raise End_of_file)
+let     nil                  = fromList []
 let     cons          x s    = lazy_from_val (x, s)
 
 let complete f x = try f () with End_of_file -> x
@@ -35,15 +36,26 @@ let get   s = force s
 let endOf s = complete (fun _ -> ignore (get s); false) true 
 let hd    s = fst (get s)
 let tl    s = snd (get s)
-
 let rec concat x y = lazy_from_fun (fun _ -> try let x, xl = get x in x, concat xl y with End_of_file -> get y)
 
-let rec map  f s   = lazy_from_fun (fun _ -> let x, y = get s in f x, map f y)
-let rec iter f s   = complete (fun _ -> let x, y = get s in f x; iter f y) ()
-let rec fold f x s = complete (fun _ -> let z, y = get s in fold f (f x z) y) x
+let rec map    f s = lazy_from_fun (fun _ -> let x, y = get s in f x, map f y)
 let rec filter f s = lazy_from_fun (fun _ -> let (x, y) as z = get s in if f x then get (filter f y) else z)
+let     iter   f s = let rec aux s = let x, y = get s in f x; aux y in try aux s with End_of_file -> ()
+let     fold f x s =
+   let acc = ref x in
+   let rec aux s =
+      let x, y = get s in
+      acc := f !acc x;
+      aux y
+   in try aux s with End_of_file -> !acc
 
-let rec zip x y      = lazy_from_fun (fun _ -> let (x, xl), (y, yl)                   = get x, get y               in (x, y)      , zip  xl yl      )
+let last  s =
+   let x, y = get s in
+   let res = ref x in
+   iter (fun x -> res := x) y;
+   !res
+
+let rec zip  x y     = lazy_from_fun (fun _ -> let (x, xl), (y, yl)                   = get x, get y               in (x, y)      , zip  xl yl      )
 let rec zip3 x y z   = lazy_from_fun (fun _ -> let (x, xl), (y, yl), (z, zl)          = get x, get y, get z        in (x, y, z)   , zip3 xl yl zl   )
 let rec zip4 x y z t = lazy_from_fun (fun _ -> let (x, xl), (y, yl), (z, zl), (t, tl) = get x, get y, get z, get t in (x, y, z, t), zip4 xl yl zl tl)
 

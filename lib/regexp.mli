@@ -54,8 +54,13 @@ module Diagram :
     (** Type synonym for expression. *)
     type 'a expr = 'a t
 
+    module SS : Set.S with type elt = string
+    
     (** Type for the diagram. *)
-    type 'a t 
+    type 'a cond = If of string * ('a -> bool) | Ref of string | Lookahead of 'a t | EoS 
+    and  'a tran = 'a cond * SS.t * 'a node
+    and  'a node = {mutable final: bool; mutable transitions: 'a tran list; id: int}
+    and  'a t    = 'a node list * string list * int
 
     (** DOT visualizer. *)
     val toDOT : 'a t -> string

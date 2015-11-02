@@ -28,7 +28,7 @@ module Class =
     type t   = int
     type set = int
 
-    let isIn x c = (x lor c) > 0
+    let isIn x c = (x land c) > 0
 
     let _PRINTABLE  =      1 (* x20 -- xE7      *)
     let _CONTROL    =      2 (* x00 -- x19      *)
@@ -110,7 +110,7 @@ module Class =
         |]
       in
       let getClasses c = fst (Array.fold_left (fun (m, i) x -> (if x c then m lor (1 lsl i) else m), i+1) (0, 0) classTests) in
-      Array.init 256 (fun i -> getClasses (Char.chr i)) 
+      Array.init 256 (fun i -> getClasses (Char.chr i))
 
     let get c = table.(Char.code c)
  
