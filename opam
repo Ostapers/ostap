@@ -6,13 +6,15 @@ bug-reports: "https://github.com/Ostapers/ostap/issues"
 dev-repo:    "git+https://github.com/Ostapers/ostap.git"
 
 build: [
-	[make]
+  [make]
 ]
 install: [
-	[make "install"]
+  [make "install"]
 ]
 remove: [ "ocamlfind" "remove" "ostap" ]
-
+build-test: [
+  [make "test"]
+]
 depends: [ 
 	"logger"
 	"typeutil"
