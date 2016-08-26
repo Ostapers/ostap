@@ -1,6 +1,5 @@
 true: rectypes
 "extension.ml": package(camlp5), pp(camlp5o), use_ostap_lib
-true: verbose
 
 <lib/*>: package(typeutil)
 <lib/*.ml>: for-pack(Ostap)
@@ -9,6 +8,7 @@ true: verbose
 <util/*.ml>: use_pa_ostap, package(camlp5), for-pack(Ostap)
 <util/*.mli>: use_ostap_lib1, for-pack(Ostap)
 
-<test/*.ml>: use_pa_log, use_pa_ostap, use_ostap_lib, package(logger.syntax)
-<test/test*.byte>: use_ostap_lib, package(str)
+<test/*.ml>: use_pa_log,use_pa_ostap, package(logger.syntax)
+<test/test*.byte> or <test/test*.native>: package(str,typeutil)
+
 
